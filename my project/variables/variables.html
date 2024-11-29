@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="curso.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #121212;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+    
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+            color: #fff;
+            position: relative;
+            z-index: 1000;
+        }
+    
+        .btn-nav {
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: transform 0.3s, color 0.3s;
+        }
+    
+        .btn-nav:hover {
+            transform: scale(1.1);
+            color: #ffe600; /* Accent color on hover */
+        }
+    
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: #2c2c2c;
+            color: #fff;
+            padding: 2rem 1rem;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+        }
+    
+        .sidebar.active {
+            transform: translateX(0);
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.7);
+        }
+    
+        .sidebar h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 0.5rem;
+            text-align: center;
+        }
+    
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+    
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+    
+        .sidebar ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s, transform 0.3s;
+        }
+    
+        .sidebar ul li a:hover {
+            background-color: #007bff;
+            color: #fff;
+            transform: scale(1.05);
+        }
+    
+        .content {
+            padding: 2rem;
+            margin-left: 250px;
+            transition: margin-left 0.3s ease;
+        }
+    
+        .section {
+            margin-bottom: 2rem;
+            background: #1e1e1e;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+            position: relative;
+            animation: fadeIn 0.5s forwards;
+            overflow: hidden; /* Prevent overflow on animations */
+        }
+    
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #007bff;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+    
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #00bfff;
+        }
+    
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+    
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+    
+        .output {
+            margin-top: 1rem;
+            background: #2c2c2c;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+            white-space: pre-wrap;
+            color: #f0f0f0;
+            animation: slideIn 0.5s forwards;
+        }
+    
+        @keyframes slideIn {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    
+        textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #555;
+            border-radius: 5px;
+            font-family: 'Source Code Pro', monospace;
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+            transition: border-color 0.3s;
+        }
+    
+        textarea:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+    
+        #vari {
+            border: solid 1px gray;
+            background-color: rgb(86, 86, 86);
+            padding: 20px;
+            font-size: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+    
+        #vari:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+    
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+    
+        ::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 10px;
+        }
+    
+        ::-webkit-scrollbar-thumb:hover {
+            background: #007bff;
+        }
+    </style>
+    
+    
+    <script>
+        function executePHP(codeId, outputId) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "execute.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    const outputElement = document.getElementById(outputId);
+                    if (xhr.status === 200) {
+                        outputElement.innerHTML = xhr.responseText;
+                        outputElement.classList.add('fade-in');
+                    } else {
+                        outputElement.innerHTML = "Error al ejecutar el código PHP.";
+                    }
+                }
+            };
+            var code = document.getElementById(codeId).value;
+            xhr.send("code=" + encodeURIComponent(code));
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("active");
+            const content = document.querySelector('.content');
+            if (sidebar.classList.contains('active')) {
+                content.style.marginLeft = '250px'; // Espacio para el sidebar
+            } else {
+                content.style.marginLeft = '0'; // Sin espacio para el sidebar
+            }
+        }
+    </script>
+</head>
+<body>
+    <header class="main-header">
+        <button class="btn-nav" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav>
+            <ul class="navigation" style="display: flex; gap: 1rem;">
+                <li><a href="http://localhost/my%20project/nosotros/nosotros.php" style="color: #fff;">Nosotros</a></li>
+                <li><a href="http://localhost/my%20project/pagina_inicio/pagina_inicio.html" style="color: #fff;">Cursos</a></li>
+                <li><a href="http://localhost/my%20project/ejercicios/index.php" style="color: #fff;">Ejercicios</a></li>
+                <li><a href="https://api.whatsapp.com/send/?phone=573132680067&text&type=phone_number&app_absent=0" style="color: #fff;">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <aside id="sidebar" class="sidebar">
+        <h2>Menú</h2>
+        <ul>
+            <li><a href="http://localhost/my%20project/Curso/curso.html#intro">Syntaxis PHP</a></li>
+            <li><a href="http://localhost/my%20project/comentarios/comentarios.html">¿Como Comentar?</a></li>
+            <li><a href="http://localhost/my%20project/variables/variables.html">Variables</a></li>
+            <li><a href="http://localhost/my%20project/if,else/if.html">PHP if...Else...Elseif</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        <section id="intro" class="section fade-in">
+
+            <h2>Creación (declaración) de variables PHP</h2>
+            <p>En PHP una variable comienza con el signo $, seguido del nombre de la variable:.</p>
+
+        </section>
+
+        <section id="php-executor-1" class="section fade-in">
+            <h2>Ejemplo</h2>
+
+            <textarea id="php-code-1" rows="10">
+
+<?php
+    $x = 5;
+    $y = "Jhon";
+
+    echo $x;   
+    echo $y;
+?>
+            </textarea>
+            <br>
+            <button onclick="executePHP('php-code-1', 'php-output-1')">Compruebalo tú mismo</button>
+            <div id="php-output-1" class="output"></div>
+        </section>
+
+        <div class="not" style="font-size: 20px">
+        <p>En el ejemplo anterior, la varibale $x contendrá el valor 5 y la variable $y contendrá el valor "Jhon". </p>
+
+        <p><strong>Nota:</strong> Cuando asigne un valor de texto una variable, coloque el valor entre comillas.</p>
+
+        <p><strong>Nota: </strong>A diferencia de otros lenguajes de programación PHP no tiene ningún comando para declarar una variable. Se crea en el momento en que le asigna un valor por primera vez</p><br>
+        </div>
+        
+        <br>
+
+        <section id="vari">
+            <p>Piense en las variables como contenedores para almacenar datos.</p>
+        </section><br><br>
+
+
+        <p style="font-size: 30px;"><Strong>Variables de PHP</Strong></p>
+        <p style="font-size: 20px;">Una variable puede tener un nombre corto (como $x y $y) o un nombre más descriptivo ($age, $carname, $total_volume)</p>
+        
+        <p style="font-size: 20px;">Reglas para las variables PHP: </p>
+        <div class="va">
+            <ul>
+                <li>Una variable comienza con el signo $, seguido del nombre de la variable.</li>
+                <li>Un nombre de variable debe comenzar con una letra o el carácter de guión bajo.</li>
+                <li>Un nombre de variable no puede comenzar con un número.</li>
+                <li>Un nombre de variable solo puede contener caracteres alfanuméricos y guines bajos (A-z, 0-9 y _ ).</li>
+                <li>Los nombres de las variables distinguen entre mayúsculas y minúsculas ($age y $AGE son dos variables diferentes)</li>
+            </ul>
+        </div>
+
+        <br><br>
+        <section id="vari">
+            <p>¡Recuerde que los nombres de las variables PHP distinguen entre mayúsculas y minúsculas!.</p>
+        </section>
+            <br><br>
+
+
+        <p style="font-size: 30px;"><Strong>Variables de salida</Strong></p>
+        <p style="font-size: 20px;">La declaración echo de PHP se utiliza a menudo para mostrar datos en la pantalla.</p>
+            
+        <p style="font-size: 20px;">El siguiente ejemplo muestra cómo mostrar texto y una variable: </p>
+
+
+        <section id="php-executor-2" class="section fade-in">
+            <h2>Ejemplo</h2>
+            <textarea id="php-code-2" rows="10">
+
+<?php
+    $txt = "PixelCode";
+    echo "Yo amo $txt!";
+?>
+            </textarea>
+            <br>
+            
+            <button onclick="executePHP('php-code-2', 'php-output-2')">Compruebalo tú mismo</button>
+            <div id="php-output-2" class="output"></div>
+        </section>
+
+
+        <p style="font-size: 20px;">El siguiente ejemplo producirá el mismo resultado que el ejemplo anterior:</p>
+
+        <section id="php-executor-3" class="section fade-in">
+            <h2>Ejemplo</h2>
+            <textarea id="php-code-3" rows="10">
+
+<?php
+    $txt = "PixelCode";
+    echo "Yo amo " . $txt . "!";
+?>
+            </textarea>
+            <br>
+            
+            <button onclick="executePHP('php-code-3', 'php-output-3')">Compruebalo tú mismo</button>
+            <div id="php-output-3" class="output"></div>
+        </section>
+
+        <p style="font-size: 20px;">El siguiente ejemplo generará la suma de dos variables:</p>
+
+        <section id="php-executor-4" class="section fade-in">
+            <h2>Ejemplo</h2>
+            <textarea id="php-code-4" rows="10">
+
+<?php
+$x = 5;
+$y = 4;
+
+echo $x + $y;
+?>
+            </textarea>
+            <br>
+            <button onclick="executePHP('php-code-4', 'php-output-4')">Compruebalo tú mismo</button>
+            <div id="php-output-4" class="output"></div>
+        </section>
+
+        <br>
+        <p style="font-size: 20px;"><Strong>Note: </Strong>Aprenderá más sobre la declaración echo y cómo enviar datos a la pantalla en el capítulo Echo/Print de PHP</p>
+        <br>
+
+        <div class="estre" style="font-size: 20px">
+            <p>PHP es un lenguaje de tipado flexible, en el ejemplo anterior, observe que no tuvimos que decirle a PHP qué tipo de datos es la variable. </p>
+            <p>PHP asocia automáticamente un tipo de datos a la variable, según su valor. Dado que los tipos de datos no se esstablecen en sentido estricto, puede hacer cosas como agregar una cadena a un entero sin causar un error.</p>
+            <p>En PHP 7, se agregaron declaraciones de tipo. Esto  brinda una ipción para especificar el tipo de datos esperando al declarar función y, al habilitar el requisito estricto, arrojará un "error fatal" en caso de que no coincida el tipo.</p>
+            <p>Aprenderá más sobre los requisitos estrictos y no estrictos, y las delcaraciones de tipo de datos en el capítulo Funciones PHP</p>
+        </div>
+        <br><br>
+        <p style="font-size: 30px;"><Strong>Tipos de variables</Strong></p>
+        <p style="font-size: 20px;">PHP no tiene ningún comando para declarar una variable, y el tipo de datos depende del valor de la variable.</p>
+
+
+        <section id="php-executor-5" class="section fade-in">
+            <h2>Ejemplo</h2>
+            <textarea id="php-code-5" rows="10">
+
+<?php
+    $x = 5;         //$x Es un entero 
+    $y = "Jhon";    //$x Es una cadena  
+
+    echo $x;
+    echo $y;
+?>
+            </textarea>
+            <br>
+            <button onclick="executePHP('php-code-5', 'php-output-5')">Compruebalo tú mismo</button>
+            <div id="php-output-5" class="output"></div>
+        </section>
+
+
+        <p style="font-size: 25px;"><Strong>PHP admite los siguientes tipos de datos</Strong></p>
+        <div class="ti">
+            <ul>
+                <li>String (Cadena)</li>
+                <li>Integer (Entero)</li>
+                <li>Float (Números de punto flotante, también llamados dobles)</li>
+                <li>Boolean (Booleano)</li>
+                <li>Array ()</li>
+                <li>Objetct (Objeto)</li>
+                <li>NULL (NULL)</li>
+                <li>Resource (Recurso)</li>
+            </ul>
+        </div>
+        <br>    
+        <p style="font-size: 30px;"><Strong>Obtener el tipo</Strong></p>
+        <p style="font-size: 20px;">Para obtener el tipo de datos de una variable, utilice la función var_dump().</p>
+
+
+
+        <section id="php-executor-6" class="section fade-in">
+            <h2>Ejemplo</h2>
+            <p>La función var_dump() devuleve el tipo de datos y el valor:</p>
+            <textarea id="php-code-6" rows="10">
+
+<?php
+    $x = 5;          
+    var_dump($x);
+?>
+            </textarea>
+            <br>
+            <button onclick="executePHP('php-code-6', 'php-output-6')">Compruebalo tú mismo</button>
+            <div id="php-output-6" class="output"></div>
+        </section>
+
+
+
+        <section id="php-executor-7" class="section fade-in">
+            <h2>Ejemplo</h2>
+            <p>La función var_dump() devuleve el tipo de datos y el valor:</p>
+            <textarea id="php-code-7" rows="10">
+
+<?php
+    var_dump(5);
+    var_dump("Jhon");
+    var_dump(3.14);
+    var_dump(true);
+    var_dump([2, 3, 56]);
+    var_dump(NULL);
+?>
+            </textarea>
+            <br>
+            <button onclick="executePHP('php-code-7', 'php-output-7')">Compruebalo tú mismo</button>
+            <div id="php-output-7" class="output"></div>
+        </section>
+
+
+        <p style="font-size: 30px;"><Strong>Asignar una cadena a una variable</Strong></p>
+        <p style="font-size: 20px;">Para asignar una cadena a una variable, se debe indicar el nombre de la variable seguido de un signo igual y la caden:</p>
+
+
+        <section id="php-executor-8" class="section fade-in">
+        <h2>Ejemplo</h2>
+        <p>La función var_dump() devuleve el tipo de datos y el valor:</p>
+        <textarea id="php-code-8" rows="10">
+
+<?php
+
+    $x = "Jhon";
+    echo $x;
+
+?>
+        </textarea>
+        <br>
+        <button onclick="executePHP('php-code-8', 'php-output-8')">Compruebalo tú mismo</button>
+        <div id="php-output-8" class="output"></div>
+    </section>
+
+    <p>Las variables de cadena se pueden declarar mediante comillas simple o dobles, pero conviene tener en cuenta las diferencias.
+        Obtenga más información sobre las diferencias en el capítulo Cadenas de PHP.
+    </p>
+
+
+    <p style="font-size: 30px;"><Strong>Asignar múltiples valores</Strong></p>
+    <p style="font-size: 20px;">Puede asignar el mismo valor a múltiples variables en una línea:</p>
+
+
+    <section id="php-executor-9" class="section fade-in">
+        <h2>Ejemplo</h2>
+        <p>Las tres variables obtienen el valor "Fruta":</p>
+        <textarea id="php-code-9" rows="10">
+
+<?php
+
+    $x = $y = $z = "Fruta";
+
+    echo $x;
+    echo $y;
+    echo $z;
+?>
+        </textarea>
+        <br>
+        <button onclick="executePHP('php-code-9', 'php-output-9')">Compruebalo tú mismo</button>
+        <div id="php-output-9" class="output"></div>
+    </section>
+
+
+
+
+    </main>
+</body>
+<script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            document.querySelector(targetId).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+    });
+
+    function executePHP(codeId, outputId) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "execute.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                const outputElement = document.getElementById(outputId);
+                if (xhr.status === 200) {
+                    outputElement.innerHTML = xhr.responseText;
+                    outputElement.classList.add('fade-in');
+                } else {
+                    outputElement.innerHTML = "Error al ejecutar el código PHP.";
+                }
+            }
+        };
+        var code = document.getElementById(codeId).value;
+        xhr.send("code=" + encodeURIComponent(code));
+    }
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("active");
+        const content = document.querySelector('.content');
+        if (sidebar.classList.contains('active')) {
+            content.style.marginLeft = '250px'; // Espacio para el sidebar
+        } else {
+            content.style.marginLeft = '0'; // Sin espacio para el sidebar
+        }
+    }
+</script>
+
+</html>

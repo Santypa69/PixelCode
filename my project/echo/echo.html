@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="curso.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #121212;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+    
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+            color: #fff;
+            position: relative;
+            z-index: 1000;
+        }
+    
+        .btn-nav {
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: transform 0.3s, color 0.3s;
+        }
+    
+        .btn-nav:hover {
+            transform: scale(1.1);
+            color: #ffe600; /* Accent color on hover */
+        }
+    
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: #2c2c2c;
+            color: #fff;
+            padding: 2rem 1rem;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+        }
+    
+        .sidebar.active {
+            transform: translateX(0);
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.7);
+        }
+    
+        .sidebar h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 0.5rem;
+            text-align: center;
+        }
+    
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+    
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+    
+        .sidebar ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s, transform 0.3s;
+        }
+    
+        .sidebar ul li a:hover {
+            background-color: #007bff;
+            color: #fff;
+            transform: scale(1.05);
+        }
+    
+        .content {
+            padding: 2rem;
+            margin-left: 250px;
+            transition: margin-left 0.3s ease;
+        }
+    
+        .section {
+            margin-bottom: 2rem;
+            background: #1e1e1e;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+            position: relative;
+            animation: fadeIn 0.5s forwards;
+            overflow: hidden; /* Prevent overflow on animations */
+        }
+    
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #007bff;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+    
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #00bfff;
+        }
+    
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+    
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+    
+        .output {
+            margin-top: 1rem;
+            background: #2c2c2c;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+            white-space: pre-wrap;
+            color: #f0f0f0;
+            animation: slideIn 0.5s forwards;
+        }
+    
+        @keyframes slideIn {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    
+        textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #555;
+            border-radius: 5px;
+            font-family: 'Source Code Pro', monospace;
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+            transition: border-color 0.3s;
+        }
+    
+        textarea:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+    
+        #vari {
+            border: solid 1px gray;
+            background-color: rgb(86, 86, 86);
+            padding: 20px;
+            font-size: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+    
+        #vari:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+    
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+    
+        ::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 10px;
+        }
+    
+        ::-webkit-scrollbar-thumb:hover {
+            background: #007bff;
+        }
+    </style>
+    
+    
+    <script>
+        function executePHP(codeId, outputId) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "execute.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    const outputElement = document.getElementById(outputId);
+                    if (xhr.status === 200) {
+                        outputElement.innerHTML = xhr.responseText;
+                        outputElement.classList.add('fade-in');
+                    } else {
+                        outputElement.innerHTML = "Error al ejecutar el código PHP.";
+                    }
+                }
+            };
+            var code = document.getElementById(codeId).value;
+            xhr.send("code=" + encodeURIComponent(code));
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("active");
+            const content = document.querySelector('.content');
+            if (sidebar.classList.contains('active')) {
+                content.style.marginLeft = '250px'; // Espacio para el sidebar
+            } else {
+                content.style.marginLeft = '0'; // Sin espacio para el sidebar
+            }
+        }
+    </script>
+</head>
+<body>
+    <header class="main-header">
+        <button class="btn-nav" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav>
+            <ul class="navigation" style="display: flex; gap: 1rem;">
+                <li><a href="http://localhost/my%20project/nosotros/nosotros.php" style="color: #fff;">Nosotros</a></li>
+                <li><a href="http://localhost/my%20project/pagina_inicio/pagina_inicio.html" style="color: #fff;">Cursos</a></li>
+                <li><a href="http://localhost/my%20project/ejercicios/index.php" style="color: #fff;">Ejercicios</a></li>
+                <li><a href="https://api.whatsapp.com/send/?phone=573132680067&text&type=phone_number&app_absent=0" style="color: #fff;">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <aside id="sidebar" class="sidebar">
+        <h2>Menú</h2>
+        <ul>
+            <li><a href="http://localhost/my%20project/Curso/curso.html#intro">Syntaxis PHP</a></li>
+            <li><a href="http://localhost/my%20project/comentarios/comentarios.html">¿Como Comentar?</a></li>
+            <li><a href="http://localhost/my%20project/variables/variables.html">Variables</a></li>
+            <li><a href="http://localhost/my%20project/if,else/if.html">if, else</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+
+            <h2>Sentencia Echo e Print de PHP </h2>
+            <p>
+                <span style="color: pink;">Echo</span> y <span style="color: pink;">Print</span> son más o menos lo mismo. Ambas se utilizan para mostrar datos en la pantalla.</p>
+
+            <p>
+                Las diferencias son pequeñas:  <span style="color: pink;">Echo</span> no tiene valor de retonro mientras que <span style="color: pink;">Print</span> tiene un valor de retorno de 1, por lo que se puede utilizar en expresiones. <span style="color: pink;">Echo</span> puede tomar multiples parámetros (aunque tal uso es poco frecuente)
+                mientras que <span style="color: pink;">Print</span> puede tomar un argumento. Echo es ligeramente más rápido que <span style="color: pink;">Print</span>.
+            </p>
+
+
+            <h2>La declaración Echo de PHP</h2>
+
+            <p>La declaración <span style="color: pink;">Echo</span> se puede utilizar con o sin paréntesis: <span style="color: pink;">Echo</span> o <span style="color: pink;">Echo()</span>.</p>
+
+        <section id="php-executor-1" class="section fade-in">
+            <h3>Ejemplos</h3>
+
+            <textarea id="php-code-1" rows="10">
+
+
+<?php
+    echo "¡Hola";   
+    echo ("Hola");
+?>
+            </textarea>
+            <br>
+
+
+            <button onclick="executePHP('php-code-1', 'php-output-1')">Compruebalo tú mismo</button>
+            <div id="php-output-1" class="output"></div>
+        </section>
+
+<br>
+
+        <h2>Mostrar texto</h2>
+
+        <p>El siguiente ejemplo muestra como generar texto con el comando <span style="color: pink;">Echo</span> (tenga en cuenta que el texto puede contener HTML)</p>
+
+
+
+
+        <section id="php-executor-2" class="section fade-in">
+            <h3>Ejemplo</h3>
+            <textarea id="php-code-2" rows="10">
+<?php
+    echo "<h2>PHP es divertido</h2>";
+    echo "Hola Mundo! <br>";
+    echo "¡Estoy a punto de aprender PHP!<br>";
+    echo "Esta", "cadena", "Fue", "hecho", "con múltiples parámetros.";
+?>
+            </textarea>
+
+            <button onclick="executePHP('php-code-2', 'php-output-2')">Compruebalo tú mismo</button>
+            <div id="php-output-2" class="output"></div>
+        </section>
+
+
+
+            <br><br>
+
+
+
+        <h2>Visualización de variables</h2>
+
+        <p>El siguiente ejemplo muestra cómo generar texto y variables con la declaración <span style="color: pink;">Echo</span>:</p>
+
+        <section id="php-executor-3" class="section fade-in">
+
+            <h3>Ejemplo</h3>
+
+            <textarea id="php-code-3" rows="10">
+
+<?php
+
+    $txt1 = "Learn PHP";
+    $txt2 = "PixelCode";
+
+    echo = "<h2>$txt1</h2>";
+    echo = "<p>Estudie PHP en $txt2</p>";
+
+?>
+            </textarea>
+            <br>
+
+            <button onclick="executePHP('php-code-1', 'php-output-1')">Compruebalo tú mismo</button>
+            <div id="php-output-1" class="output"></div>
+
+        </section>
+
+
+        <h2>Uso de comillas simples</h2>
+
+        <p>Las cadenas se escriben entre comillas, pero en PHP existen una diferencia entre comillas simples y dobles.</p>
+        <p>Al usar comillas dobles, se pueden insertar variables en la cadena como en el ejemplo anterior.</p>
+        <p>Al usar comillas simples, las variables se deben insertar utilizando el operador de la siguiente manera:</p>
+
+        <section id="php-executor-3" class="section fade-in">
+
+            <h3>Ejemplo</h3>
+            <textarea id="php-code-3" rows="10">
+
+<?php
+    $txt1 = "Learn PHP";
+    $txt2 = "W3Schools.com";
+
+    echo '<h2>' . $txt1 . '</h2>';
+    echo '<p>Study PHP at ' . $txt2 . '</p>';
+?>
+            </textarea>
+            <br>
+            
+            <button onclick="executePHP('php-code-3', 'php-output-3')">Compruebalo tú mismo</button>
+            <div id="php-output-3" class="output"></div>
+        </section>
+
+
+
+            <h2>La declaración Echo de PHP</h2>
+
+            <p>La declaración <span style="color: pink;">Echo</span> se puede utilizar con o sin paréntesis: <span style="color: pink;">Echo</span> o <span style="color: pink;">Echo()</span>.</p>
+
+        <section id="php-executor-1" class="section fade-in">
+            <h3>Ejemplos</h3>
+
+            <textarea id="php-code-1" rows="10">
+
+
+<?php
+    echo "¡Hola";   
+    echo ("Hola");
+?>
+            </textarea>
+            <br>
+
+
+            <button onclick="executePHP('php-code-1', 'php-output-1')">Compruebalo tú mismo</button>
+            <div id="php-output-1" class="output"></div>
+        </section>
+
+<br>
+
+        <h2>Mostrar texto</h2>
+
+        <p>El siguiente ejemplo muestra como generar texto con el comando <span style="color: pink;">Echo</span> (tenga en cuenta que el texto puede contener HTML)</p>
+
+
+
+
+        <section id="php-executor-2" class="section fade-in">
+            <h3>Ejemplo</h3>
+            <textarea id="php-code-2" rows="10">
+<?php
+    echo "<h2>PHP es divertido</h2>";
+    echo "Hola Mundo! <br>";
+    echo "¡Estoy a punto de aprender PHP!<br>";
+    echo "Esta", "cadena", "Fue", "hecho", "con múltiples parámetros.";
+?>
+            </textarea>
+
+            <button onclick="executePHP('php-code-2', 'php-output-2')">Compruebalo tú mismo</button>
+            <div id="php-output-2" class="output"></div>
+        </section>
+
+
+
+            <br><br>
+
+
+
+        <h2>Visualización de variables</h2>
+
+        <p>El siguiente ejemplo muestra cómo generar texto y variables con la declaración <span style="color: pink;">Echo</span>:</p>
+
+        <section id="php-executor-3" class="section fade-in">
+
+            <h3>Ejemplo</h3>
+
+            <textarea id="php-code-3" rows="10">
+
+<?php
+
+    $txt1 = "Learn PHP";
+    $txt2 = "PixelCode";
+
+    echo = "<h2>$txt1</h2>";
+    echo = "<p>Estudie PHP en $txt2</p>";
+
+?>
+            </textarea>
+            <br>
+
+            <button onclick="executePHP('php-code-1', 'php-output-1')">Compruebalo tú mismo</button>
+            <div id="php-output-1" class="output"></div>
+
+        </section>
+
+
+        <h2>Uso de comillas simples</h2>
+
+        <p>Las cadenas se escriben entre comillas, pero en PHP existen una diferencia entre comillas simples y dobles.</p>
+        <p>Al usar comillas dobles, se pueden insertar variables en la cadena como en el ejemplo anterior.</p>
+        <p>Al usar comillas simples, las variables se deben insertar utilizando el operador de la siguiente manera:</p>
+
+        <section id="php-executor-3" class="section fade-in">
+
+            <h3>Ejemplo</h3>
+            <textarea id="php-code-3" rows="10">
+
+<?php
+    $txt1 = "Learn PHP";
+    $txt2 = "W3Schools.com";
+
+    echo '<h2>' . $txt1 . '</h2>';
+    echo '<p>Study PHP at ' . $txt2 . '</p>';
+?>
+            </textarea>
+            <br>
+            
+            <button onclick="executePHP('php-code-3', 'php-output-3')">Compruebalo tú mismo</button>
+            <div id="php-output-3" class="output"></div>
+        </section>
+
+
+
+
+
+
+
+
+        <h2>La declaración Print de PHP</h2>
+
+        <p>La declaración <span style="color: pink;">Print</span> se puede utilizar con o sin paréntesis: <span style="color: pink;">Print</span> o <span style="color: pink;">Print()</span>.</p>
+
+    <section id="php-executor-1" class="section fade-in">
+        <h3>Ejemplos</h3>
+
+        <textarea id="php-code-1" rows="10">
+
+
+<?php
+print "¡Hola";   
+print ("Hola");
+?>
+        </textarea>
+        <br>
+
+
+        <button onclick="executePHP('php-code-1', 'php-output-1')">Compruebalo tú mismo</button>
+        <div id="php-output-1" class="output"></div>
+    </section>
+
+<br>
+
+    <h2>Mostrar texto</h2>
+
+    <p>El siguiente ejemplo muestra como generar texto con el comando <span style="color: pink;">Print</span> (tenga en cuenta que el texto puede contener HTML)</p>
+
+
+
+
+    <section id="php-executor-2" class="section fade-in">
+        <h3>Ejemplo</h3>
+        <textarea id="php-code-2" rows="10">
+<?php
+print "<h2>PHP es divertido</h2>";
+print "Hola Mundo! <br>";
+print "¡Estoy a punto de aprender PHP!<br>";
+print "Esta", "cadena", "Fue", "hecho", "con múltiples parámetros.";
+?>
+        </textarea>
+
+        <button onclick="executePHP('php-code-2', 'php-output-2')">Compruebalo tú mismo</button>
+        <div id="php-output-2" class="output"></div>
+    </section>
+
+
+
+        <br><br>
+
+
+
+    <h2>Visualización de variables</h2>
+
+    <p>El siguiente ejemplo muestra cómo generar texto y variables con la declaración <span style="color: pink;">Print</span>:</p>
+
+    <section id="php-executor-3" class="section fade-in">
+
+        <h3>Ejemplo</h3>
+
+        <textarea id="php-code-3" rows="10">
+
+<?php
+
+$txt1 = "Learn PHP";
+$txt2 = "PixelCode";
+
+print = "<h2>$txt1</h2>";
+print = "<p>Estudie PHP en $txt2</p>";
+
+?>
+        </textarea>
+        <br>
+
+        <button onclick="executePHP('php-code-3', 'php-output-3')">Compruebalo tú mismo</button>
+        <div id="php-output-3" class="output"></div>
+
+    </section>
+
+
+    <h2>Uso de comillas simples</h2>
+
+    <p>Las cadenas se escriben entre comillas, pero en PHP existen una diferencia entre comillas simples y dobles.</p>
+    <p>Al usar comillas dobles, se pueden insertar variables en la cadena como en el ejemplo anterior.</p>
+    <p>Al usar comillas simples, las variables se deben insertar utilizando el operador de la siguiente manera:</p>
+
+    <section id="php-executor-4" class="section fade-in">
+
+        <h3>Ejemplo</h3>
+        <textarea id="php-code-4" rows="10">
+
+<?php
+$txt1 = "Learn PHP";
+$txt2 = "W3Schools.com";
+
+print '<h2>' . $txt1 . '</h2>';
+print '<p>Study PHP at ' . $txt2 . '</p>';
+?>
+        </textarea>
+        <br>
+        
+        <button onclick="executePHP('php-code-4', 'php-output-4')">Compruebalo tú mismo</button>
+        <div id="php-output-3" class="output"></div>
+    </section>
+
+
+
+        <h2>La declaración Echo de PHP</h2>
+
+        <p>La declaración <span style="color: pink;">Print</span> se puede utilizar con o sin paréntesis: <span style="color: pink;">Print</span> o <span style="color: pink;">Print()</span>.</p>
+
+    <section id="php-executor-5" class="section fade-in">
+        <h3>Ejemplos</h3>
+
+        <textarea id="php-code-5" rows="10">
+
+
+<?php
+echo "¡Hola";   
+echo ("Hola");
+?>
+        </textarea>
+        <br>
+
+
+        <button onclick="executePHP('php-code-5', 'php-output-5')">Compruebalo tú mismo</button>
+        <div id="php-output-5" class="output"></div>
+    </section>
+
+<br>
+
+    <h2>Mostrar texto</h2>
+
+    <p>El siguiente ejemplo muestra como generar texto con el comando <span style="color: pink;">Print</span> (tenga en cuenta que el texto puede contener HTML)</p>
+
+
+
+
+    <section id="php-executor-6" class="section fade-in">
+        <h3>Ejemplo</h3>
+        <textarea id="php-code-6" rows="10">
+<?php
+print "<h2>PHP es divertido</h2>";
+print "Hola Mundo! <br>";
+print "¡Estoy a punto de aprender PHP!<br>";
+print "Esta", "cadena", "Fue", "hecho", "con múltiples parámetros.";
+?>
+        </textarea>
+
+        <button onclick="executePHP('php-code-6', 'php-output-6')">Compruebalo tú mismo</button>
+        <div id="php-output-6" class="output"></div>
+    </section>
+
+
+
+        <br><br>
+
+
+
+    <h2>Visualización de variables</h2>
+
+    <p>El siguiente ejemplo muestra cómo generar texto y variables con la declaración <span style="color: pink;">Print</span>:</p>
+
+    <section id="php-executor-7" class="section fade-in">
+
+        <h3>Ejemplo</h3>
+
+        <textarea id="php-code-7" rows="10">
+
+<?php
+
+$txt1 = "Learn PHP";
+$txt2 = "PixelCode";
+
+print = "<h2>$txt1</h2>";
+print = "<p>Estudie PHP en $txt2</p>";
+
+?>
+        </textarea>
+        <br>
+
+        <button onclick="executePHP('php-code-7', 'php-output-7')">Compruebalo tú mismo</button>
+        <div id="php-output-7" class="output"></div>
+
+    </section>
+
+
+    <h2>Uso de comillas simples</h2>
+    
+
+    <p>Las cadenas se escriben entre comillas, pero en PHP existen una diferencia entre comillas simples y dobles.</p>
+    <p>Al usar comillas dobles, se pueden insertar variables en la cadena como en el ejemplo anterior.</p>
+    <p>Al usar comillas simples, las variables se deben insertar utilizando el operador de la siguiente manera:</p>
+
+    <section id="php-executor-8" class="section fade-in">
+
+        <h3>Ejemplo</h3>
+        <textarea id="php-code-8" rows="10">
+
+<?php
+$txt1 = "Learn PHP";
+$txt2 = "W3Schools.com";
+
+print '<h2>' . $txt1 . '</h2>';
+print '<p>Study PHP at ' . $txt2 . '</p>';
+?>
+        </textarea>
+        <br>
+        
+        <button onclick="executePHP('php-code-8', 'php-output-8')">Compruebalo tú mismo</button>
+        <div id="php-output-8" class="output"></div>
+    </section>
+
+
+
+    </main>
+</body>
+<script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            document.querySelector(targetId).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+    });
+
+    function executePHP(codeId, outputId) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "execute.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                const outputElement = document.getElementById(outputId);
+                if (xhr.status === 200) {
+                    outputElement.innerHTML = xhr.responseText;
+                    outputElement.classList.add('fade-in');
+                } else {
+                    outputElement.innerHTML = "Error al ejecutar el código PHP.";
+                }
+            }
+        };
+        var code = document.getElementById(codeId).value;
+        xhr.send("code=" + encodeURIComponent(code));
+    }
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("active");
+        const content = document.querySelector('.content');
+        if (sidebar.classList.contains('active')) {
+            content.style.marginLeft = '250px'; // Espacio para el sidebar
+        } else {
+            content.style.marginLeft = '0'; // Sin espacio para el sidebar
+        }
+    }
+</script>
+
+</html>

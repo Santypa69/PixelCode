@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="curso.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #1c1c1c, #444);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-nav {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #fff;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: #444; /* Color del menú lateral */
+            color: #fff; /* Color del texto en el menú */
+            padding: 1rem;
+            z-index: 1000;
+        }
+        
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        nav {
+            display: flex;
+            list-style: none;
+        }
+
+        .content {
+            padding: 2rem;
+            margin-left: 250px; /* espacio para el sidebar */
+        }
+
+        .section {
+            margin-bottom: 2rem;
+            opacity: 0; /* Ocultar inicialmente para la animación */
+            transition: opacity 0.5s ease-in;
+        }
+
+        .section.fade-in {
+            opacity: 1; /* Hacer visible en la animación */
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+        .sidebar ul li a {
+            color: #fff; /* Color de los enlaces en el menú */
+            text-decoration: none;
+        }
+
+        .sidebar ul li a:hover {
+            text-decoration: underline; /* Efecto hover en enlaces */
+        }
+
+        .output {
+            margin-top: 1rem;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 1rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <button class="btn-nav" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav>
+            <ul class="navigation">
+                <li><a href="#">Nosotros</a></li>
+                <li><a href="http://localhost/my%20project/pagina_inicio/pagina_inicio.html">Cursos</a></li>
+                <li><a href="https://api.whatsapp.com/send/?phone=573132680067&text&type=phone_number&app_absent=0">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <aside id="sidebar" class="sidebar">
+        <h2>Menú</h2>
+        <ul>
+            <li><a href="#intro">Syntaxis PHP</a></li><hr>
+            <li><a href="http://localhost/my%20project/comentarios/comentarios.html">¿Como Comentar?</a></li><hr>
+            <li><a href="http://localhost/my%20project/variables/variables.html">Variables</a></li>
+            <li><a href="">Cómo Empezar</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        <section id="intro" class="section fade-in">
+            <h2>¿Qué es PHP?</h2>
+            <p>PHP (Hypertext Preprocessor) es un lenguaje de scripting del lado del servidor que se utiliza principalmente para desarrollar aplicaciones web. PHP es ampliamente usado debido a su flexibilidad y facilidad de uso. Se integra bien con HTML y puede interactuar con bases de datos.</p>
+            <p>Algunas características clave de PHP:</p>
+            <ul>
+                <li>Lenguaje del lado del servidor</li>
+                <li>Soporta bases de datos como MySQL y PostgreSQL</li>
+                <li>Fácil de aprender y usar</li>
+                <li>Amplia comunidad y documentación</li>
+            </ul>
+        </section>
+
+        <section id="examples" class="section fade-in">
+            <h2>Ejemplos Básicos</h2>
+            <div class="example">
+                <h3>Hola Mundo</h3>
+                <pre><code>&lt;?php
+echo "¡Hola, Mundo!"; 
+?&gt;</code></pre>
+                <p>Este es el ejemplo más simple de PHP. Usa la función <code>echo</code> para imprimir texto en la página.</p>
+            </div>
+            <div class="example">
+                <h3>Variables y Operaciones</h3>
+                <pre><code>&lt;?php
+$numero1 = 10;
+$numero2 = 20;
+$suma = $numero1 + $numero2;
+echo "La suma de $numero1 y $numero2 es $suma."; 
+?&gt;</code></pre>
+                <p>Este ejemplo muestra cómo declarar variables, realizar una operación matemática y mostrar el resultado.</p>
+            </div>
+
+            <div class="example">
+                <h3>PHP es un lenguaje sensible</h3>
+                <pre><code>&lt;?php
+$color = "red";
+echo "My car is " . $color . "&lt;br&gt;";
+echo "My house is " . $COLOR . "&lt;br&gt;";
+echo "My boat is " . $coLOR . "&lt;br&gt;";
+?&gt;
+
+Resultado:
+My car is red
+My house is
+My boat is
+</code></pre>
+                <p>Con el anterior código nos podemos dar cuenta que PHP es muy estricto con su sintaxis, ten cuidado con esto.</p>
+            </div>
+        </section>
+
+        <section id="php-executor" class="section fade-in">
+            <h2>Ejecutor de PHP Interactivo</h2>
+            <h3>Introduce tu código PHP</h3>
+            <textarea id="php-code" rows="10" cols="50">&lt;?php
+echo "Hello World!&lt;br&gt;";
+?&gt;</textarea>
+            <br>
+            <button onclick="executePHP()">Ejecutar Código PHP</button>
+            <div id="php-output" class="output"></div>
+        </section>
+
+        <section id="get-started" class="section fade-in">
+            <h2>Cómo Empezar</h2>
+            <p>Para empezar a trabajar con PHP, sigue estos pasos:</p>
+            <ol>
+                <li>Instala un servidor web local como XAMPP o WAMP.</li>
+                <li>Crea un archivo con la extensión <code>.php</code>.</li>
+                <li>Escribe tu código PHP dentro de las etiquetas <code>&lt;?php ?&gt;</code>.</li>
+                <li>Guarda el archivo en el directorio de tu servidor web y accede a él a través del navegador.</li>
+            </ol>
+            <p>Recuerda que PHP se ejecuta en el servidor, por lo que necesitas un entorno de servidor para probar tus scripts.</p>
+        </section>
+    </main>
+
+    <script>
+        function executePHP() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "execute.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    const outputElement = document.getElementById("php-output");
+                    if (xhr.status === 200) {
+                        outputElement.innerHTML = xhr.responseText;
+                        outputElement.classList.add('fade-in');
+                    } else {
+                        outputElement.innerHTML = "Error al ejecutar el código PHP.";
+                    }
+                }
+            };
+            var code = document.getElementById("php-code").value;
+            xhr.send("code=" + encodeURIComponent(code));
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("active");
+        }
+
+        const sections = document.querySelectorAll('.section');
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
